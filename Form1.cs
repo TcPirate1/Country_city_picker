@@ -13,7 +13,7 @@ namespace Country_city_picker
 {
     public partial class Form1 : Form
     {
-        private ArrayList messages = new ArrayList();
+        private readonly ArrayList messages = new ArrayList();
         public Form1()
         {
             InitializeComponent();
@@ -45,14 +45,28 @@ namespace Country_city_picker
 
         private void CountryListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PopulateCities(CountryListBox.SelectedItem.ToString());
+            if (CountryListBox.SelectedItem != null)
+            {
+                PopulateCities(CountryListBox.SelectedItem.ToString().Trim());
+            }
+            else
+            {
+                PopulateCities("");
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string name = NameEntryTextBox.Text;
-            string city = CityComboBox.SelectedItem.ToString();
-            string country = CountryListBox.SelectedItem.ToString();
+            string name = NameEntryTextBox.Text.Trim();
+            string city = CityComboBox.SelectedItem?.ToString().Trim();
+            string country = CountryListBox.SelectedItem?.ToString().Trim();
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
+            {
+                MessageBox.Show("Either the name, country or city hasn't been filled.", "Please fill in all required fields.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Exit the method to prevent further processing
+            }
+
             string message = $"{name} lives in {city}, {country}";
 
             messages.Add(message);
