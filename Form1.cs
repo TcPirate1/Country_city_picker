@@ -45,6 +45,7 @@ namespace Country_city_picker
 
         private void CountryListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Thils fills the Country List Box with either an empty string when there is no country selected to prevent error.
             if (CountryListBox.SelectedItem != null)
             {
                 PopulateCities(CountryListBox.SelectedItem.ToString().Trim());
@@ -61,10 +62,11 @@ namespace Country_city_picker
             string city = CityComboBox.SelectedItem?.ToString().Trim();
             string country = CountryListBox.SelectedItem?.ToString().Trim();
 
+            // Check if fields are filled. If not notify the user.
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
             {
                 MessageBox.Show("Either the name, country or city hasn't been filled.", "Please fill in all required fields.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Exit the method to prevent further processing
+                return;
             }
 
             string message = $"{name} lives in {city}, {country}";
@@ -74,7 +76,7 @@ namespace Country_city_picker
             // Display a MessageBox with the message
             MessageBox.Show(message, "Message Created");
 
-            // Clear input fields
+            // Clear input fields after clicking OK
             NameEntryTextBox.Clear();
             CityComboBox.SelectedIndex = -1;
             CountryListBox.SelectedIndex = -1;
